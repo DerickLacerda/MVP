@@ -11,7 +11,12 @@ interface AlertDialogProps {
   children?: React.ReactNode
 }
 
+// Modifique a implementação do AlertDialog para garantir que ele só seja renderizado quando estiver aberto
 const AlertDialog: React.FC<AlertDialogProps> = ({ open, onOpenChange, children }) => {
+  // Se não estiver aberto, não renderize nada
+  if (open === false) {
+    return null
+  }
   return <>{children}</>
 }
 

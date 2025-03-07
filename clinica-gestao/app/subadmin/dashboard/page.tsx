@@ -198,21 +198,20 @@ export default function SubadminDashboard() {
   }
 
   const confirmDelete = async () => {
-    if (!medicoToDelete) return; // Verifica se medicoToDelete é null
-  
+    if (!medicoToDelete) return
+
     try {
-      setIsLoading(true);
-      await deleteMedico(medicoToDelete.id); // Agora é seguro acessar .id
-      await loadData();
-      setDeleteDialogOpen(false);
-      setMedicoToDelete(null);
+      setIsLoading(true)
+      await deleteMedico(medicoToDelete.id)
+      await loadData()
+      setDeleteDialogOpen(false)
+      setMedicoToDelete(null)
     } catch (error) {
-      console.error("Erro ao excluir médico:", error);
+      console.error("Erro ao excluir médico:", error)
     } finally {
-      setIsLoading(false);
+      setIsLoading(false)
     }
-  };
-  
+  }
 
   const columns = [
     {
@@ -511,25 +510,28 @@ export default function SubadminDashboard() {
         </TabsContent>
       </Tabs>
 
-      <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>Confirmar exclusão</AlertDialogTitle>
-            <AlertDialogDescription>
-              Tem certeza que deseja excluir o médico "{medicoToDelete?.nome}"? Esta ação não pode ser desfeita.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel>Cancelar</AlertDialogCancel>
-            <AlertDialogAction
-              onClick={confirmDelete}
-              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
-            >
-              Excluir
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
+      {/* Diálogo de confirmação de exclusão */}
+      {medicoToDelete && (
+        <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Confirmar exclusão</AlertDialogTitle>
+              <AlertDialogDescription>
+                Tem certeza que deseja excluir o médico "{medicoToDelete.nome}"? Esta ação não pode ser desfeita.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>Cancelar</AlertDialogCancel>
+              <AlertDialogAction
+                onClick={confirmDelete}
+                className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+              >
+                Excluir
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
+      )}
     </SubadminLayout>
   )
 }
