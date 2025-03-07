@@ -9,7 +9,9 @@ module.exports = {
     extend: {
       colors: {
         border: "#d1d5db", // Cor personalizada
+        ring: "#7080a0",   // Definição de cor para o "ring" (ajuste conforme necessário)
       },
     },
   },
-};
+  plugins: [],
+}
