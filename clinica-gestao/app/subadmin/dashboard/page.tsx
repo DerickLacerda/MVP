@@ -24,8 +24,6 @@ import { BarChart, FileText, Stethoscope, Users } from "lucide-react"
 import { getMedicos, createMedico, updateMedico, deleteMedico } from "@/lib/subadmin"
 import {
   AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
   AlertDialogFooter,
@@ -155,6 +153,11 @@ export default function SubadminDashboard() {
   const handleDelete = (medico: Medico) => {
     setMedicoToDelete(medico)
     setDeleteDialogOpen(true)
+  }
+
+  const handleCancelDelete = () => {
+    setDeleteDialogOpen(false)
+    setMedicoToDelete(null)
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -521,13 +524,15 @@ export default function SubadminDashboard() {
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
-              <AlertDialogCancel>Cancelar</AlertDialogCancel>
-              <AlertDialogAction
+              <Button variant="outline" onClick={handleCancelDelete} className="mt-2 sm:mt-0">
+                Cancelar
+              </Button>
+              <Button
                 onClick={confirmDelete}
                 className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
               >
                 Excluir
-              </AlertDialogAction>
+              </Button>
             </AlertDialogFooter>
           </AlertDialogContent>
         </AlertDialog>

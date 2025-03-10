@@ -26,8 +26,6 @@ import { BarChart, Building2, Users } from "lucide-react"
 import { getSubadmins, createSubadmin, updateSubadmin, deleteSubadmin } from "@/lib/admin"
 import {
   AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
   AlertDialogHeader,
@@ -126,6 +124,11 @@ export default function AdminDashboard() {
       setDeleteDialogOpen(false)
       setSubadminToDelete(null)
     }
+  }
+
+  const handleCancelDelete = () => {
+    setDeleteDialogOpen(false)
+    setSubadminToDelete(null)
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -418,13 +421,15 @@ export default function AdminDashboard() {
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
-              <AlertDialogCancel>Cancelar</AlertDialogCancel>
-              <AlertDialogAction
+              <Button variant="outline" onClick={handleCancelDelete} className="mt-2 sm:mt-0">
+                Cancelar
+              </Button>
+              <Button
                 onClick={confirmDelete}
                 className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
               >
                 Excluir
-              </AlertDialogAction>
+              </Button>
             </AlertDialogFooter>
           </AlertDialogContent>
         </AlertDialog>

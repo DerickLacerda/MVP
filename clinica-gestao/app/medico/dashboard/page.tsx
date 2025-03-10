@@ -36,8 +36,6 @@ import {
 } from "@/lib/medico"
 import {
   AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
   AlertDialogFooter,
@@ -156,6 +154,11 @@ export default function MedicoDashboard() {
   const handleDeletePaciente = (paciente: Paciente) => {
     setPacienteToDelete(paciente)
     setDeleteDialogOpen(true)
+  }
+
+  const handleCancelDelete = () => {
+    setDeleteDialogOpen(false)
+    setPacienteToDelete(null)
   }
 
   const confirmDeletePaciente = async () => {
@@ -617,13 +620,15 @@ export default function MedicoDashboard() {
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
-              <AlertDialogCancel>Cancelar</AlertDialogCancel>
-              <AlertDialogAction
+              <Button variant="outline" onClick={handleCancelDelete} className="mt-2 sm:mt-0">
+                Cancelar
+              </Button>
+              <Button
                 onClick={confirmDeletePaciente}
                 className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
               >
                 Excluir
-              </AlertDialogAction>
+              </Button>
             </AlertDialogFooter>
           </AlertDialogContent>
         </AlertDialog>

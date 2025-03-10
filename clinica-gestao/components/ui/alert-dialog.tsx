@@ -42,6 +42,7 @@ const AlertDialogOverlay = React.forwardRef<HTMLDivElement, React.HTMLAttributes
 )
 AlertDialogOverlay.displayName = "AlertDialogOverlay"
 
+// Modifique o AlertDialogContent para ter um fundo branco
 const AlertDialogContent = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
   ({ className, ...props }, ref) => (
     <div className="fixed inset-0 z-50 flex items-center justify-center">
@@ -49,7 +50,7 @@ const AlertDialogContent = React.forwardRef<HTMLDivElement, React.HTMLAttributes
       <div
         ref={ref}
         className={cn(
-          "fixed left-[50%] top-[50%] z-50 grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 border bg-background p-6 shadow-lg duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] sm:rounded-lg",
+          "fixed left-[50%] top-[50%] z-50 grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 border bg-white p-6 shadow-lg duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] sm:rounded-lg",
           className,
         )}
         {...props}
@@ -82,15 +83,43 @@ const AlertDialogDescription = React.forwardRef<HTMLParagraphElement, React.HTML
 AlertDialogDescription.displayName = "AlertDialogDescription"
 
 const AlertDialogAction = React.forwardRef<HTMLButtonElement, React.ButtonHTMLAttributes<HTMLButtonElement>>(
-  ({ className, ...props }, ref) => <Button ref={ref} className={cn(className)} {...props} />,
+  ({ className, onClick, ...props }, ref) => (
+    <Button
+      ref={ref}
+      className={cn(className)}
+      onClick={(e) => {
+        if (onClick) {
+          onClick(e)
+        }
+      }}
+      {...props}
+    />
+  ),
 )
 AlertDialogAction.displayName = "AlertDialogAction"
 
-const AlertDialogCancel = React.forwardRef<HTMLButtonElement, React.ButtonHTMLAttributes<HTMLButtonElement>>(
-  ({ className, ...props }, ref) => (
-    <Button ref={ref} variant="outline" className={cn("mt-2 sm:mt-0", className)} {...props} />
-  ),
-)
+// Modifique o AlertDialogCancel para garantir que o onClick funcione corretamente
+const AlertDialogCancel = React.forwardRef<
+  HTMLButtonElement,
+  React.ButtonHTMLAttributes<HTMLButtonElement> & { onCancel?: () => void }
+>(({ className, onClick, onCancel, ...props }, ref) => (
+  <Button
+    ref={ref}
+    variant="outline"
+    className={cn("mt-2 sm:mt-0", className)}
+    onClick={(e) => {
+      // Garantir que o evento onClick seja chamado
+      if (onClick) {
+        onClick(e)
+      }
+      // Chamar onCancel se fornecido
+      if (onCancel) {
+        onCancel()
+      }
+    }}
+    {...props}
+  />
+))
 AlertDialogCancel.displayName = "AlertDialogCancel"
 
 export {

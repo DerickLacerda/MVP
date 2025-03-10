@@ -99,3 +99,14 @@
   color: #854d0e;
 }
 
+/* Estilo global para navbars */
+.navbar-solid {
+  @apply bg-background/100 shadow-sm;
+  backdrop-filter: none !important;
+}
+
+.navbar-white {
+  @apply bg-white shadow-sm;
+  backdrop-filter: none !important;
+}
+
