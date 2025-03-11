@@ -4,16 +4,10 @@ import type React from "react"
 
 import { useState } from "react"
 import Link from "next/link"
-import { usePathname } from "next/navigation"
+import { usePathname, useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import {
   Bell,
@@ -35,8 +29,10 @@ interface MedicoLayoutProps {
 
 export function MedicoLayout({ children }: MedicoLayoutProps) {
   const pathname = usePathname()
+  const router = useRouter()
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
+  // Remover a entrada de configurações do array de rotas
   const routes = [
     {
       href: "/medico/dashboard",
@@ -62,13 +58,11 @@ export function MedicoLayout({ children }: MedicoLayoutProps) {
       icon: ClipboardList,
       active: pathname === "/medico/prontuarios",
     },
-    {
-      href: "/medico/configuracoes",
-      label: "Configurações",
-      icon: Settings,
-      active: pathname === "/medico/configuracoes",
-    },
   ]
+
+  const handleNavigate = (path: string) => {
+    router.push(path)
+  }
 
   return (
     <div className="flex min-h-screen flex-col">
@@ -147,24 +141,27 @@ export function MedicoLayout({ children }: MedicoLayoutProps) {
                 <ChevronDown className="h-4 w-4 text-muted-foreground" />
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" sideOffset={4} className="w-56">
-              <div className="px-2 py-1.5 text-sm font-semibold">Minha Conta</div>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem className="flex items-center gap-2 py-2 cursor-pointer">
-                <User className="h-4 w-4" />
-                <span>Perfil</span>
+            <DropdownMenuContent align="end" sideOffset={4} className="bg-white">
+              <DropdownMenuItem onClick={() => handleNavigate("/medico/perfil")}>
+                <User className="h-4 w-4 mr-2" />
+                <span>Minha Conta</span>
               </DropdownMenuItem>
-              <DropdownMenuItem className="flex items-center gap-2 py-2 cursor-pointer">
-                <Settings className="h-4 w-4" />
+              <DropdownMenuItem onClick={() => handleNavigate("/medico/configuracoes")}>
+                <Settings className="h-4 w-4 mr-2" />
                 <span>Configurações</span>
               </DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem className="flex items-center gap-2 py-2 cursor-pointer">
-                <LogOut className="h-4 w-4" />
+              <DropdownMenuItem onClick={() => handleNavigate("/login")}>
+                <LogOut className="h-4 w-4 mr-2" />
                 <span>Sair</span>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
+          <Link href="/medico/configuracoes">
+            <Button variant="ghost" size="icon" title="Configurações">
+              <Settings className="h-5 w-5" />
+              <span className="sr-only">Configurações</span>
+            </Button>
+          </Link>
         </div>
       </header>
       <main className="flex-1 p-4 md:p-6">{children}</main>

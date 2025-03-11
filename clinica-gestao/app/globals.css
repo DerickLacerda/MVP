@@ -69,6 +69,11 @@
   body {
     @apply bg-background text-foreground;
   }
+
+  /* Adicionando comportamento de rolagem suave para toda a página */
+  html {
+    scroll-behavior: smooth;
+  }
 }
 
 /* Estilos personalizados para componentes específicos */
